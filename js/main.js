@@ -31,7 +31,7 @@
     function applyEditableConfig() {
       const config = readPageConfig();
       const whatsappLink = buildWhatsAppLink(config.whatsappNumber, config.whatsappMessage);
-      const tickerText = `✦ EDICIÓN LIMITADA ✦ SOLO ${config.places} LUGARES DISPONIBLES ✦ LANZAMIENTO EXCLUSIVO ✦ SOLO ${config.places} LUGARES DISPONIBLES ✦`;
+      const tickerText = `✦ SOLO ${config.places} LUGARES DISPONIBLES ✦ LANZAMIENTO OFICIAL ✦ SOLO ${config.places} LUGARES DISPONIBLES ✦ LANZAMIENTO OFICIAL ✦`;
 
       document.querySelectorAll(".js-whatsapp-link").forEach((link) => {
         link.href = whatsappLink;
