@@ -1,0 +1,937 @@
+﻿/* =========================================================
+   00. FUENTES LOCALES - GMANN MAISON VERSALLES
+   Los archivos .ttf deben estar en la carpeta /fonts/
+   ========================================================= */
+
+/* Sitka Text - para titulos (h1, h2, h3 principales) */
+@font-face {
+  font-family: "Sitka Text";
+  src: url("../fonts/SitkaText.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Libre Bodoni - para subtitulos y cuerpo de texto */
+@font-face {
+  font-family: "Libre Bodoni";
+  src: url("../fonts/LibreBodoni-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Libre Bodoni Italic - para frases destacadas y notas */
+@font-face {
+  font-family: "Libre Bodoni";
+  src: url("../fonts/LibreBodoni-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+/* =========================================================
+       01. CONFIGURACION VISUAL GLOBAL
+       Cambia colores, fuentes, tamaños base e imagenes desde aqui.
+       Si cambias una variable, se actualiza toda la pagina.
+       ========================================================= */
+    :root {
+      /* PALETA PRIMARIA */
+      --color-negro: #1D1D1B;
+      --color-blanco: #FFFFFF;
+      --color-crema: #F3EBE0;
+
+      /* PALETA SECUNDARIA */
+      --color-cafe: #624130;
+      --color-gris-medio: #787C7D;
+
+      /* Alias internos: se mantienen para compatibilidad, pero ya no usan dorado. */
+      --color-oro: var(--color-cafe);
+      --color-oro-claro: var(--color-crema);
+      --color-gris: #1A1A1A;
+      --color-overlay: rgba(0, 0, 0, 0.55);
+
+      --font-titulos: "Sitka Text", Georgia, serif;
+      --font-cuerpo: "Libre Bodoni", Georgia, serif;
+      --font-frases: "Libre Bodoni", Georgia, serif;
+
+      --content-max: 1200px;
+      --side-pad: clamp(22px, 5vw, 72px);
+
+      /* IMAGENES DE MARCA. Reemplaza archivos en /img/ si quieres probar otras fotos. */
+      --hero-poster: url("../img/hero.jpg");
+      --about-image: url("../img/maison-editorial.png");
+      --gallery-image-1: url("../img/primera-mirada-1.png");
+      --gallery-image-2: url("../img/primera-mirada-2.png");
+      --gallery-image-3: url("../img/primera-mirada-3.png");
+      --gallery-image-4: url("../img/primera-mirada-4.png");
+      --cta-image: url("../img/cta-background.png");
+    }
+
+    /* =========================================================
+       02. BASE
+       Reglas generales. Tocarlas cambia la sensacion completa.
+       ========================================================= */
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--color-blanco);
+    }
+
+    body {
+      margin: 0;
+      color: var(--color-negro);
+      background: var(--color-blanco);
+      font-family: var(--font-cuerpo);
+      font-weight: 200;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    body.intro-active {
+      overflow: hidden;
+    }
+
+    body.has-custom-cursor,
+    body.has-custom-cursor a,
+    body.has-custom-cursor button {
+      cursor: none;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    /* =========================================================
+       03. UTILIDADES REUTILIZABLES
+       Estas clases se usan en varias secciones para mantener orden.
+       ========================================================= */
+    .section {
+      position: relative;
+      padding: clamp(78px, 11vw, 150px) var(--side-pad);
+    }
+
+    .section-inner {
+      width: min(100%, var(--content-max));
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--color-crema);
+      font-family: var(--font-cuerpo);
+      font-size: 0.66rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    .display-title {
+      margin: 0;
+      font-family: var(--font-titulos);
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .body-copy {
+      margin: 0;
+      color: var(--color-blanco);
+      font-family: var(--font-cuerpo);
+      font-size: 0.95rem;
+      font-weight: 200;
+      line-height: 1.85;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 58px;
+      padding: 18px 40px;
+      border: 1px solid var(--color-negro);
+      border-radius: 2px;
+      background: var(--color-negro);
+      color: var(--color-blanco);
+      font-family: var(--font-cuerpo);
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      line-height: 1.2;
+      text-transform: uppercase;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+    }
+
+    .cta-button:hover,
+    .cta-button:focus-visible {
+      background: var(--color-cafe);
+      box-shadow: 0 0 20px rgba(98, 65, 48, 0.26);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    /* La clase .reveal es activada por JavaScript cuando el elemento entra en pantalla. */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+      transition-delay: var(--reveal-delay, 0ms);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    [data-reveal-delay="100"] { --reveal-delay: 100ms; }
+    [data-reveal-delay="110"] { --reveal-delay: 110ms; }
+    [data-reveal-delay="120"] { --reveal-delay: 120ms; }
+    [data-reveal-delay="200"] { --reveal-delay: 200ms; }
+    [data-reveal-delay="220"] { --reveal-delay: 220ms; }
+    [data-reveal-delay="260"] { --reveal-delay: 260ms; }
+    [data-reveal-delay="300"] { --reveal-delay: 300ms; }
+    [data-reveal-delay="320"] { --reveal-delay: 320ms; }
+    [data-reveal-delay="330"] { --reveal-delay: 330ms; }
+    [data-reveal-delay="380"] { --reveal-delay: 380ms; }
+
+    /* =========================================================
+       03B. INTRO DE MARCA
+       Capa inicial para QR: isotipo negro sobre fondo claro.
+       ========================================================= */
+    .intro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      width: 100%;
+      min-height: 100dvh;
+      padding: 36px;
+      border: 0;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--color-negro);
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .intro-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(243, 235, 224, 0.16);
+      backdrop-filter: blur(18px) saturate(0.8);
+    }
+
+    .intro-isotype {
+      position: relative;
+      z-index: 1;
+      width: min(132vw, 720px);
+      max-width: none;
+      max-height: 104dvh;
+      object-fit: contain;
+      filter: drop-shadow(0 18px 42px rgba(29, 29, 27, 0.18));
+      opacity: 0;
+      transform: translateY(18px) scale(0.94);
+      animation: introIsotypeIn 1.15s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s forwards;
+      transition: transform 0.8s ease, opacity 0.8s ease, filter 0.8s ease;
+    }
+
+    .intro-hint {
+      position: absolute;
+      bottom: 34px;
+      left: 50%;
+      z-index: 1;
+      color: var(--color-negro);
+      font-family: var(--font-frases);
+      font-size: 0.8rem;
+      font-style: italic;
+      letter-spacing: 0.08em;
+      transform: translateX(-50%);
+    }
+
+    .intro-overlay.is-dismissed {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .intro-overlay.is-dismissed .intro-isotype {
+      opacity: 0;
+      filter: blur(8px);
+      transform: scale(1.04);
+    }
+
+    /* =========================================================
+       04. HERO
+       Primera pantalla. En celular ocupa 100dvh para sentirse como app.
+       El video queda encima del poster. Si no carga, se ve la imagen.
+       ========================================================= */
+    .hero {
+      position: relative;
+      display: grid;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 0 var(--side-pad);
+      place-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      background: var(--color-negro);
+    }
+
+    .hero-video,
+    .hero-fallback {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-video { z-index: -2; }
+
+    .hero-fallback {
+      z-index: -3;
+      background:
+        linear-gradient(115deg, rgba(29, 29, 27, 0.06), rgba(29, 29, 27, 0.78)),
+        var(--hero-poster);
+      background-position: center;
+      background-size: cover;
+      animation: kenBurns 16s ease-in-out infinite alternate;
+    }
+
+    .hero::after,
+    .final-cta::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: rgba(29, 29, 27, 0.42);
+    }
+
+    .hero-content {
+      display: flex;
+      width: min(100%, 960px);
+      min-height: 100dvh;
+      padding: clamp(58px, 9dvh, 92px) 0 clamp(68px, 12dvh, 120px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    .hero-logo {
+      width: min(78vw, 540px);
+      margin: 0 auto;
+      filter: invert(1) drop-shadow(0 18px 38px rgba(0, 0, 0, 0.42));
+    }
+
+    .hero-launch {
+      margin: 0;
+      color: var(--color-crema);
+      font-family: var(--font-cuerpo);
+      font-size: clamp(1.46rem, 6vw, 2.8rem);
+      font-style: italic;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      line-height: 1.2;
+      text-transform: uppercase;
+      text-shadow: 0 12px 30px rgba(0, 0, 0, 0.52);
+    }
+
+    .brand-mark {
+      margin: 0;
+      color: var(--color-blanco);
+      font-family: var(--font-titulos);
+      font-size: clamp(2.18rem, 10.2vw, 7.8rem);
+      font-weight: 300;
+      line-height: 0.98;
+      letter-spacing: clamp(0.09em, 1.1vw, 0.24em);
+      text-transform: uppercase;
+      text-wrap: balance;
+      text-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
+    }
+
+    .hero-tagline {
+      margin: 24px auto 0;
+      max-width: 620px;
+      color: var(--color-crema);
+      font-family: var(--font-frases);
+      font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+      font-style: italic;
+      font-weight: 200;
+      line-height: 1.75;
+    }
+
+    .hero .cta-button { margin-top: 34px; }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, transparent, var(--color-crema), transparent);
+      transform: translateX(-50%);
+      opacity: 0.8;
+    }
+
+    /* =========================================================
+       05. TICKER
+       Barra de escasez. El texto visible se controla desde HTML.
+       ========================================================= */
+    .scarcity-ticker {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      height: 46px;
+      align-items: center;
+      overflow: hidden;
+      border-top: 1px solid rgba(243, 235, 224, 0.26);
+      border-bottom: 1px solid rgba(243, 235, 224, 0.26);
+      background: var(--color-negro);
+      color: var(--color-crema);
+      font-family: var(--font-cuerpo);
+      font-size: 0.68rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      min-width: 200%;
+      animation: scrollLeft 22s linear infinite;
+      will-change: transform;
+    }
+
+    .ticker-track span {
+      padding-right: 34px;
+      white-space: nowrap;
+    }
+
+    /* =========================================================
+       06. QUIENES SOMOS
+       Cambiar .about-grid afecta la distribucion texto/imagen.
+       ========================================================= */
+    .about {
+      background: var(--color-blanco);
+      color: var(--color-negro);
+    }
+
+    .about .eyebrow {
+      color: var(--color-cafe);
+    }
+
+    .about .display-title {
+      color: var(--color-negro);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 46px;
+      align-items: center;
+    }
+
+    .about-title {
+      max-width: 680px;
+      font-size: clamp(2.3rem, 8vw, 3.8rem);
+    }
+
+    .about .body-copy {
+      max-width: 580px;
+      margin-top: 28px;
+      color: var(--color-gris-medio);
+    }
+
+    .editorial-frame {
+      position: relative;
+      aspect-ratio: 2 / 3;
+      overflow: hidden;
+      border: 1px solid rgba(120, 124, 125, 0.22);
+      background:
+        linear-gradient(145deg, rgba(98, 65, 48, 0.08), transparent 44%),
+        linear-gradient(315deg, rgba(243, 235, 224, 0.12), transparent 45%),
+        var(--about-image);
+      background-position: center;
+      background-size: cover;
+    }
+
+    /* Este texto aparece sobre la imagen para reforzar la sensacion editorial. */
+    /* =========================================================
+       07. EXPERIENCIA
+       Tres bloques. En celular se apilan; en desktop van en columnas.
+       ========================================================= */
+    .experience {
+      background: var(--color-negro);
+      color: var(--color-blanco);
+    }
+
+    .experience .eyebrow {
+      color: var(--color-crema);
+    }
+
+    .section-heading {
+      margin-bottom: 54px;
+      text-align: center;
+    }
+
+    .section-heading .display-title {
+      font-size: clamp(2.4rem, 8vw, 4.2rem);
+    }
+
+    .experience-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .experience-card {
+      min-height: 292px;
+      padding: 42px 28px;
+      border: 1px solid rgba(243, 235, 224, 0.12);
+      background: rgba(255, 255, 255, 0.035);
+      text-align: center;
+    }
+
+    .experience-number {
+      display: block;
+      color: var(--color-crema);
+      font-family: var(--font-titulos);
+      font-size: 4.2rem;
+      font-weight: 300;
+      line-height: 0.85;
+    }
+
+    .experience-title {
+      margin: 26px 0 16px;
+      font-family: var(--font-cuerpo);
+      font-size: 1.78rem;
+      font-weight: 300;
+      line-height: 1.05;
+    }
+
+    .gold-line {
+      width: 30px;
+      height: 1px;
+      margin: 0 auto 18px;
+      background: var(--color-cafe);
+    }
+
+    .experience-card:hover {
+      border-color: var(--color-cafe);
+    }
+
+    .experience-card p {
+      margin: 0 auto;
+      max-width: 280px;
+      color: var(--color-gris-medio);
+      font-family: var(--font-frases);
+      font-size: 0.88rem;
+      font-style: italic;
+      font-weight: 200;
+      line-height: 1.75;
+    }
+
+    /* =========================================================
+       08. GALERIA COMING SOON
+       Los botones permiten tap en celular para revelar un poco mas.
+       ========================================================= */
+    .gallery {
+      background: var(--color-blanco);
+      color: var(--color-negro);
+    }
+
+    .gallery .eyebrow {
+      color: var(--color-cafe);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .gallery-item {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(120, 124, 125, 0.18);
+      appearance: none;
+      background-position: center;
+      background-size: cover;
+      color: inherit;
+      isolation: isolate;
+    }
+
+    .gallery-item:nth-child(1) { background-image: var(--gallery-image-1); }
+    .gallery-item:nth-child(2) { background-image: var(--gallery-image-2); }
+    .gallery-item:nth-child(3) { background-image: var(--gallery-image-3); }
+    .gallery-item:nth-child(4) { background-image: var(--gallery-image-4); }
+
+    .gallery-item::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.58);
+      backdrop-filter: blur(7px);
+      transition: background 0.4s ease, backdrop-filter 0.4s ease;
+    }
+
+    .gallery-item::after {
+      content: "PRONTO";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 2;
+      color: var(--color-negro);
+      font-family: var(--font-cuerpo);
+      font-size: clamp(0.7rem, 2.3vw, 0.86rem);
+      letter-spacing: 0.4em;
+      transform: translate(-50%, -50%);
+    }
+
+    .gallery-item:hover::before,
+    .gallery-item.is-revealed::before {
+      background: rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(3px);
+    }
+
+    /* =========================================================
+       09. CTA FINAL
+       Segunda oportunidad de reserva, con imagen fuerte y overlay.
+       ========================================================= */
+    .final-cta {
+      position: relative;
+      display: grid;
+      min-height: 86vh;
+      padding: 112px var(--side-pad);
+      place-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        linear-gradient(120deg, rgba(98, 65, 48, 0.13), rgba(29, 29, 27, 0.75)),
+        var(--cta-image),
+        #111;
+      background-position: center;
+      background-size: cover;
+      text-align: center;
+    }
+
+    .final-cta::after { background: rgba(29, 29, 27, 0.62); }
+
+    .final-cta-content { width: min(100%, 760px); }
+
+    .final-cta .display-title {
+      color: var(--color-blanco);
+      font-size: clamp(2.55rem, 10vw, 5.6rem);
+    }
+
+    .final-cta p {
+      margin: 24px auto 0;
+      max-width: 540px;
+      color: var(--color-blanco);
+      font-size: 1rem;
+      font-weight: 200;
+      line-height: 1.75;
+    }
+
+    .final-cta .cta-button {
+      width: min(100%, 420px);
+      margin-top: 36px;
+      border-color: var(--color-negro);
+      background: var(--color-negro);
+      color: var(--color-blanco);
+    }
+
+    .final-cta .cta-button:hover,
+    .final-cta .cta-button:focus-visible {
+      background: var(--color-cafe);
+      color: var(--color-blanco);
+    }
+
+    .fine-print {
+      display: block;
+      margin-top: 18px;
+      color: var(--color-crema);
+      font-family: var(--font-frases);
+      font-size: 0.72rem;
+      font-style: italic;
+      font-weight: 200;
+      letter-spacing: 0.08em;
+    }
+
+    /* =========================================================
+       10. FOOTER
+       Links sociales con SVG inline. Cambiar href en HTML.
+       ========================================================= */
+    .footer {
+      padding: 42px var(--side-pad) 92px;
+      border-top: 1px solid rgba(243, 235, 224, 0.18);
+      background: var(--color-negro);
+      text-align: center;
+    }
+
+    .footer-brand {
+      margin: 0;
+      color: var(--color-crema);
+      font-family: var(--font-titulos);
+      font-size: 0.88rem;
+      font-weight: 300;
+      letter-spacing: 0.5em;
+      line-height: 1.8;
+      text-transform: uppercase;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 22px 0 18px;
+    }
+
+    .social-link {
+      display: inline-grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      color: var(--color-crema);
+      transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .social-link:hover,
+    .social-link:focus-visible {
+      color: var(--color-cafe);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .social-link svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .copyright {
+      margin: 0;
+      color: var(--color-gris-medio);
+      font-family: var(--font-frases);
+      font-size: 0.63rem;
+      font-style: italic;
+      font-weight: 200;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       11. BOTON STICKY WHATSAPP
+       JavaScript lo oculta en el hero y lo muestra al scrollear.
+       En celular se vuelve una barra fija inferior.
+       ========================================================= */
+    .floating-reserve {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 60;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 15px 24px;
+      border: 1px solid var(--color-negro);
+      border-radius: 2px;
+      background: var(--color-negro);
+      box-shadow: 0 12px 38px rgba(29, 29, 27, 0.24);
+      color: var(--color-blanco);
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      line-height: 1;
+      text-transform: uppercase;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+      transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .floating-reserve svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      flex: 0 0 auto;
+    }
+
+    .floating-reserve.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .floating-reserve:hover,
+    .floating-reserve:focus-visible {
+      border-color: var(--color-cafe);
+      background: var(--color-blanco);
+      color: var(--color-negro);
+      box-shadow: 0 0 24px rgba(98, 65, 48, 0.24);
+      outline: none;
+    }
+
+    /* =========================================================
+       12. CURSOR DESKTOP
+       Solo se activa cuando el dispositivo tiene mouse/trackpad.
+       ========================================================= */
+    .custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      width: 18px;
+      height: 18px;
+      border: 1px solid var(--color-crema);
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.2s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+      mix-blend-mode: difference;
+    }
+
+    .custom-cursor.is-active { opacity: 1; }
+
+    .custom-cursor.is-hovering {
+      width: 30px;
+      height: 30px;
+      background: rgba(243, 235, 224, 0.14);
+    }
+
+    /* =========================================================
+       13. ANIMACIONES
+       ========================================================= */
+    @keyframes kenBurns {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
+    }
+
+    @keyframes introIsotypeIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.94);
+        filter: blur(5px) drop-shadow(0 18px 42px rgba(29, 29, 27, 0.18));
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0) drop-shadow(0 18px 42px rgba(29, 29, 27, 0.18));
+      }
+    }
+
+    @keyframes scrollLeft {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+
+    /* =========================================================
+       14. RESPONSIVE MOBILE-FIRST
+       Primero se disena para celular. Luego se agregan mejoras desktop.
+       ========================================================= */
+    @media (max-width: 767px) {
+      .intro-isotype {
+        width: min(150vw, 620px);
+        max-height: 106dvh;
+      }
+
+      .hero-content {
+        padding: 58px 0 82px;
+      }
+
+      .hero-logo {
+        width: min(84vw, 410px);
+      }
+
+      .brand-mark {
+        max-width: 360px;
+        margin: 0 auto;
+        font-size: clamp(2.1rem, 10vw, 2.5rem);
+        letter-spacing: 0.09em;
+      }
+
+      .hero-tagline { max-width: 320px; }
+
+      .cta-button {
+        width: min(100%, 336px);
+        padding-right: 24px;
+        padding-left: 24px;
+        letter-spacing: 0.22em;
+      }
+
+      .body-copy { font-size: 0.9rem; }
+
+      .experience-card { min-height: 254px; }
+
+      .gallery-item {
+        aspect-ratio: 3 / 4.35;
+      }
+
+      .footer { padding-bottom: 88px; }
+
+      .floating-reserve {
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 56px;
+        border-right: 0;
+        border-bottom: 0;
+        border-left: 0;
+        padding: 0 20px;
+        font-size: 0.66rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .about-grid {
+        grid-template-columns: minmax(0, 1fr) 1px minmax(300px, 0.78fr);
+        gap: clamp(42px, 7vw, 88px);
+      }
+
+      .about-divider {
+        width: 1px;
+        height: min(68vh, 520px);
+        background: linear-gradient(to bottom, transparent, rgba(201, 168, 76, 0.75), transparent);
+      }
+
+      .experience-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .gallery-grid { gap: 18px; }
+      .gallery-item { aspect-ratio: 3 / 4; }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-content { transform: none; }
+      .hero-tagline { font-size: 1.05rem; }
+
+      .experience-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
