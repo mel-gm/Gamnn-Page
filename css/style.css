@@ -229,7 +229,7 @@
       object-fit: contain;
       filter: drop-shadow(0 18px 42px rgba(29, 29, 27, 0.18));
       opacity: 0;
-      transform: translateY(18px) scale(0.94);
+      transform: translate(-3%, 18px) scale(0.94);
       animation: introIsotypeIn 1.15s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s forwards;
       transition: transform 0.8s ease, opacity 0.8s ease, filter 0.8s ease;
     }
@@ -256,7 +256,7 @@
     .intro-overlay.is-dismissed .intro-isotype {
       opacity: 0;
       filter: blur(8px);
-      transform: scale(1.04);
+      transform: translateX(-3%) scale(1.04);
     }
 
     /* =========================================================
@@ -831,13 +831,13 @@
     @keyframes introIsotypeIn {
       from {
         opacity: 0;
-        transform: translateY(18px) scale(0.94);
+        transform: translate(-3%, 18px) scale(0.94);
         filter: blur(5px) drop-shadow(0 18px 42px rgba(29, 29, 27, 0.18));
       }
 
       to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translate(-3%, 0) scale(1);
         filter: blur(0) drop-shadow(0 18px 42px rgba(29, 29, 27, 0.18));
       }
     }
@@ -867,6 +867,8 @@
         width: min(88vw, 430px);
         max-width: 88vw;
         max-height: 82dvh;
+        transform: translate(-5%, 18px) scale(0.94);
+        animation-name: introIsotypeInMobile;
       }
 
       .hero-content {
@@ -919,6 +921,20 @@
         border-left: 0;
         padding: 0 20px;
         font-size: 0.66rem;
+      }
+    }
+
+    @keyframes introIsotypeInMobile {
+      from {
+        opacity: 0;
+        transform: translate(-5%, 18px) scale(0.94);
+        filter: blur(5px) drop-shadow(0 18px 42px rgba(29, 29, 27, 0.18));
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-5%, 0) scale(1);
+        filter: blur(0) drop-shadow(0 18px 42px rgba(29, 29, 27, 0.18));
       }
     }
 
